@@ -4,6 +4,7 @@ const pEmailInvalido = document.getElementById('emailinvalido');
 const inputCurriculo = document.getElementById('curriculo');
 const spanFileName = document.getElementById('filename');
 const btnSubmit = document.getElementById('btnsubmit');
+var emailValido = false, arquivoValido = false;
 
 campoEmail.addEventListener('keyup', verificarEmail);
 inputCurriculo.addEventListener('change', atualizarNameFile);
@@ -23,23 +24,28 @@ function verificarEmail() {
             (dominio.search(" ")==-1) &&
             (dominio.search(".")!=-1) &&
             (dominio.indexOf(".") >= 1)&&
-            (dominio.lastIndexOf(".") < dominio.length - 1)) {
-            if ((dominio.substring(dominio.length-4, dominio.length) == '.com') ||
-                (dominio.substring(dominio.length-4, dominio.length) == '.net') ||
-                (dominio.substring(dominio.length-3, dominio.length) == '.br')) {
+            (dominio.lastIndexOf(".") < dominio.length - 1) &&
+            ((dominio.substring(dominio.length-4, dominio.length) == '.com') ||
+            (dominio.substring(dominio.length-4, dominio.length) == '.net') ||
+            (dominio.substring(dominio.length-3, dominio.length) == '.br'))) {
                 pEmailInvalido.style.display = "none";
-                btnSubmit.type = 'submit';
-            }
+                emailValido = true;
+                if (emailValido && arquivoValido) {
+                    btnSubmit.type = 'submit';
+                }
         } else {
             pEmailInvalido.style.display = "block";
             btnSubmit.type = 'button';
+            emailValido = false;
         }
     } else {
         pEmailInvalido.style.display = "block";
         btnSubmit.type = 'button';
+        emailValido = false;
     }
 }
 function atualizarNameFile() {
+    // Modificando o nome do arquivo na span
     if (inputCurriculo.files[0].name) {
         var nameFile = inputCurriculo.files[0].name;
         if (nameFile.length < 14) { 
@@ -47,10 +53,25 @@ function atualizarNameFile() {
         } else {
             spanFileName.innerText = nameFile.substring(0, 14) + "...";
         }
+        // Verificando o tipo do arquivo
+        if (nameFile.substring(nameFile.indexOf('.'), nameFile.length) == '.pdf') {
+            arquivoValido = true;
+            if (emailValido && arquivoValido) {
+                btnSubmit.type = 'submit';
+            }
+        } else {
+            arquivoValido = false;
+        }
     }
 }
 function analiseParaPost() {
     if (btnSubmit.type == 'button') {
-        alert('Insira um email válido antes de prosseguir.');
+        if (!emailValido && !arquivoValido) {
+            alert('Corrija os seguintes pontos:\nInsira um email válido.\nInsira um currículo no formato PDF.');
+        } else if (!emailValido && arquivoValido) {
+            alert('Insira um email válido.');
+        } else if (emailValido && !arquivoValido) {
+            alert('Insira um currículo no formato PDF.')
+        }
     }
 }

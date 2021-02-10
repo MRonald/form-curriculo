@@ -2,17 +2,17 @@
 <html lang="pt-br">
 <head>
 	<meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Registration Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Envie Seu Currículo</title>
 	<link rel="stylesheet" href="_css/styles.css">
-  <script type="text/javascript" src="_js/scripts.js" defer></script>
+    <script type="text/javascript" src="_js/scripts.js" defer></script>
 </head>
 <body>
   <div class="wrapper">
       <div class="title">
         Envie seu Currículo
       </div>
-      <form class="form" method="GET" action="_php/register.php">
+      <form class="form" enctype="multipart/form-data" method="POST" action="_php/register.php">
         <div class="inputfield">
             <label for="nome">Nome Completo</label>
             <input type="text" class="input" id="nome" name="nome" required>
@@ -56,7 +56,7 @@
             </div>
         </div>
         <div class="inputfield">
-          <input type="submit" value="Enviar" class="btn" id="btnsubmit">
+          <input type="button" value="Enviar" class="btn" id="btnsubmit">
         </div>
       </form>
   </div>
