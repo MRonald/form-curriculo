@@ -1,8 +1,12 @@
 // Variáveis globais e listeners
 const campoEmail = document.getElementById('email');
 const pEmailInvalido = document.getElementById('emailinvalido');
+const inputCurriculo = document.getElementById('curriculo');
+const btnSwitchFile = document.getElementById('btnswitch');
+const spanFileName = document.getElementById('filename');
 
 campoEmail.addEventListener('keyup', verificarEmail);
+inputCurriculo.addEventListener('change', atualizarNameFile);
 
 // Functions
 function verificarEmail() {
@@ -29,5 +33,15 @@ function verificarEmail() {
         }
     } else {
         pEmailInvalido.style.display = "block";
+    }
+}
+function atualizarNameFile() {
+    if (inputCurriculo.files[0].name) {
+        var nameFile = inputCurriculo.files[0].name;
+        if (nameFile.length < 14) { 
+            spanFileName.innerText = nameFile;
+        } else {
+            spanFileName.innerText = nameFile.substring(0, 14) + "...";
+        }
     }
 }

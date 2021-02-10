@@ -98,6 +98,24 @@ p.emailinvalido {
 .wrapper .form .inputfield .custom_select select:focus{
   border: 1px solid var(--color-font);
 }
+.inputhidden {
+  display: none;
+}
+#btnswitch {
+  background-color: var(--color-font);
+  color: #fff;
+  font-size: 12px;
+  padding: 5px;
+  margin: 0px;
+  width: 70px;
+  text-align: center;
+  display: block;
+  float: right;
+  border-radius: 3px;
+}
+#btnswitch:hover {
+  cursor: pointer;
+}
 .wrapper .form .inputfield .btn{
   width: 100%;
    padding: 8px 10px;
