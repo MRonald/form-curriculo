@@ -2,11 +2,12 @@
 const campoEmail = document.getElementById('email');
 const pEmailInvalido = document.getElementById('emailinvalido');
 const inputCurriculo = document.getElementById('curriculo');
-const btnSwitchFile = document.getElementById('btnswitch');
 const spanFileName = document.getElementById('filename');
+const btnSubmit = document.getElementById('btnsubmit');
 
 campoEmail.addEventListener('keyup', verificarEmail);
 inputCurriculo.addEventListener('change', atualizarNameFile);
+btnSubmit.addEventListener('click', analiseParaPost)
 
 // Functions
 function verificarEmail() {
@@ -27,12 +28,15 @@ function verificarEmail() {
                 (dominio.substring(dominio.length-4, dominio.length) == '.net') ||
                 (dominio.substring(dominio.length-3, dominio.length) == '.br')) {
                 pEmailInvalido.style.display = "none";
+                btnSubmit.type = 'submit';
             }
         } else {
             pEmailInvalido.style.display = "block";
+            btnSubmit.type = 'button';
         }
     } else {
         pEmailInvalido.style.display = "block";
+        btnSubmit.type = 'button';
     }
 }
 function atualizarNameFile() {
@@ -43,5 +47,10 @@ function atualizarNameFile() {
         } else {
             spanFileName.innerText = nameFile.substring(0, 14) + "...";
         }
+    }
+}
+function analiseParaPost() {
+    if (btnSubmit.type == 'button') {
+        alert('Insira um email válido antes de prosseguir.');
     }
 }

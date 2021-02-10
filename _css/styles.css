@@ -114,6 +114,7 @@ p.emailinvalido {
   border-radius: 3px;
 }
 #btnswitch:hover {
+  background-color: var(--color-bg);
   cursor: pointer;
 }
 .wrapper .form .inputfield .btn{
