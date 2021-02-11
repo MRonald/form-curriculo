@@ -5,11 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Envie Seu Currículo</title>
     <link rel="stylesheet" href="../_css/styles.css">
+    <link rel="stylesheet" href="../_css/register.css">
 </head>
 <body>
-    <pre>
     <div class="wrapper">
         <?php
+            function pageError($tipo) {
+                if ($tipo == 1) {
+                    // Tipo 1 -> Faltando dados no post
+                    echo "
+                        <h1 class='title'>Opa! Tudo bem?</h1>
+                        <p>Identificamos um ou mais erros nos dados enviados. Por favor, retorne à página de cadastro e preencha o formulário novamente.</p>
+                        <p>Se o erro persistir, tente novamente mais tarde.</p>
+                        <div class='boxBtnVoltar'>
+                            <a href='#' class='btnvoltar'>Ir para a tela de cadastro</a>
+                        </div>
+                    ";
+                } else {
+                    // Tipo 2 -> Acesso direto à pagina register
+                    echo "
+                        <h1 class='title'>Opa! Tudo bem?</h1>
+                        <p>Não identificamos o seu cadastro e o envio do seu currículo. Por favor, vá à página de cadastro e preencha o formulário.</p>
+                        <div class='boxBtnVoltar'>
+                            <a href='#' class='btnvoltar'>Ir para a tela de cadastro</a>
+                        </div>
+                    ";
+                }
+            }
             if ($_POST) {
                 require 'config.php';
                 require 'connection.php';
@@ -22,15 +44,29 @@
                 $esc = ($_POST['esc']) ? $_POST['esc'] : null;
                 $obs = ($_POST['obs']) ? $_POST['obs'] : null;
                 $curriculo = ($_FILES['curriculo']) ? $_FILES['curriculo'] : null;
-                // Tratando o arquivo recebido
-                $newNameFile = substr(md5(time()), 0, 19) . substr($curriculo['name'], -4);
-                move_uploaded_file($curriculo['tmp_name'], "../_curriculos/".$newNameFile);
-                //Inserindo dados
-                $data = array($nome, $email, $tel, $cargo, $esc, $obs, substr($newNameFile, 0, -5));
-                DBInsert($data);
+                if ($nome == null || $email == null || $tel == null || $cargo == null || $esc == null || $curriculo == null) {
+                    pageError(1);
+                } else {
+                    // Tratando o arquivo recebido
+                    $newNameFile = substr(md5(time()), 0, 19) . substr($curriculo['name'], -4);
+                    move_uploaded_file($curriculo['tmp_name'], "../_curriculos/" . $newNameFile);
+                    //Inserindo dados no banco de dados
+                    $data = array($nome, $email, $tel, $cargo, $esc, $obs, substr($newNameFile, 0, -5));
+                    DBInsert($data);
+                    // Pegando o primeiro nome do usuário
+                    $primeiroNome = explode(' ', $nome)[0];
+                    echo "
+                        <h1 class='title'>Muito obrigado, $primeiroNome</h1>
+                        <p>Recebemos o seu currículo e entraremos em contato o mais rápido possível.</p>
+                        <div class='boxBtnVoltar'>
+                            <a href='#' class='btnvoltar'>Retornar para a tela de cadastro</a>
+                        </div>
+                    ";
+                }
+            } else {
+                pageError(2);
             }
         ?>
     </div>
-    </pre>
 </body>
 </html>

@@ -21,11 +21,12 @@
             <label for="email" class="labelemail">Email</label>
             <input type="email" class="input" id="email" name="email" required>
         </div>  
-        <p class="emailinvalido" id="emailinvalido">Digite um endereço de email válido</p>
+        <p class="valorinvalido" id="emailinvalido">Digite um endereço de email válido</p>
         <div class="inputfield">
             <label for="tel">Telefone</label>
             <input type="text" class="input" id="tel" name="tel" required>
-        </div>  
+        </div>
+        <p class="valorinvalido" id="telinvalido">Digite um número de telefone válido</p>
         <div class="inputfield">
             <label for="cargo">Cargo Desejado</label>
             <input type="text" class="input" id="cargo" name="cargo" required>
@@ -46,7 +47,8 @@
           <div class="inputfield">
             <label for="obs">Observações</label>
             <textarea class="textarea" id="obs" name="obs"></textarea>
-        </div> 
+        </div>
+        <p class="valorinvalido" id="obsinvalido">Digite menos que 255 caracteres</p>
         <div class="inputfield">
             <label for="curriculo">Currículo</label>
             <input type="file" class="inputhidden" id="curriculo" name="curriculo" required>
@@ -55,6 +57,7 @@
               <label for="curriculo" id="btnswitch">Selecionar Arquivo</label> 
             </div>
         </div>
+        <p class="valorinvalido" id="fileinvalido">Envie um aquivo '.pdf'</p>
         <div class="inputfield">
           <input type="button" value="Enviar" class="btn" id="btnsubmit">
         </div>

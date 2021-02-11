@@ -1,0 +1,27 @@
+:root {
+    --color-bg: #74b0ff;
+    --color-font: rgb(51, 99, 255);
+}
+p {
+    text-align: justify;
+    margin: 10px auto 50px auto;
+}
+.boxBtnVoltar {
+    width: 100%;
+    text-align: right;
+}
+.btnvoltar {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 15px;
+    border: 0px;
+    background: var(--color-font);
+    color: #fff;
+    cursor: pointer;
+    border-radius: 3px;
+    outline: none;
+    text-decoration: none;
+}
+.btnvoltar:hover {
+    background-color: var(--color-bg);
+}

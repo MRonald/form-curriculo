@@ -1,12 +1,19 @@
 // Variáveis globais e listeners
 const campoEmail = document.getElementById('email');
+const campoTel = document.getElementById('tel');
+const campoObs = document.getElementById('obs');
 const pEmailInvalido = document.getElementById('emailinvalido');
+const pTelInvalido = document.getElementById('telinvalido');
+const pObsInvalido = document.getElementById('obsinvalido');
+const pFileInvalido = document.getElementById('fileinvalido');
 const inputCurriculo = document.getElementById('curriculo');
 const spanFileName = document.getElementById('filename');
 const btnSubmit = document.getElementById('btnsubmit');
-var emailValido = false, arquivoValido = false;
+var emailValido = false, telefoneValido = false, obsValido = true, arquivoValido = false;
 
 campoEmail.addEventListener('keyup', verificarEmail);
+campoTel.addEventListener('keyup', verificarTelefone);
+campoObs.addEventListener('keyup', verificarObs);
 inputCurriculo.addEventListener('change', atualizarNameFile);
 btnSubmit.addEventListener('click', analiseParaPost)
 
@@ -30,7 +37,7 @@ function verificarEmail() {
             (dominio.substring(dominio.length-3, dominio.length) == '.br'))) {
                 pEmailInvalido.style.display = "none";
                 emailValido = true;
-                if (emailValido && arquivoValido) {
+                if (emailValido && telefoneValido && obsValido && arquivoValido) {
                     btnSubmit.type = 'submit';
                 }
         } else {
@@ -42,6 +49,55 @@ function verificarEmail() {
         pEmailInvalido.style.display = "block";
         btnSubmit.type = 'button';
         emailValido = false;
+    }
+}
+function verificarTelefone() {
+    var valor = campoTel.value;
+    var quantMais = valor.split('+').length - 1;
+    var quantTraco = valor.split('-').length - 1;
+    var temLetras = false, posTraco = false;
+    if ((valor[valor.length-1] != '+') &&
+        (valor[valor.length-1] != '-') &&
+        (valor[valor.length-1] != ' ') &&
+        (valor[valor.length-1] != '1') &&
+        (valor[valor.length-1] != '2') &&
+        (valor[valor.length-1] != '3') &&
+        (valor[valor.length-1] != '4') &&
+        (valor[valor.length-1] != '5') &&
+        (valor[valor.length-1] != '6') &&
+        (valor[valor.length-1] != '7') &&
+        (valor[valor.length-1] != '8') &&
+        (valor[valor.length-1] != '9')) {
+        temLetras = true;
+    }
+    if ((quantMais > 1) ||
+        (valor.indexOf('+') != 0 && valor.indexOf('+') != -1) ||
+        (quantTraco > 1) ||
+        ((valor.indexOf('-') < 3) && (valor.indexOf('-') != -1)) ||
+        ((valor.indexOf('-') != -1) && (valor.length-5 != valor.indexOf('-'))) ||
+        (valor.length < 7)||
+        (temLetras)) {
+        pTelInvalido.style.display = "block";
+        telefoneValido = false;
+    } else {
+        pTelInvalido.style.display = "none";
+        telefoneValido = true;
+        if (emailValido && telefoneValido && obsValido && arquivoValido) {
+            btnSubmit.type = 'submit';
+        }
+    }
+}
+function verificarObs() {
+    var valor = campoObs.value.length;
+    if (valor > 255) {
+        pObsInvalido.style.display = "block";
+        obsValido = false;
+    } else {
+        pObsInvalido.style.display = "none";
+        obsValido = true;
+        if (emailValido && telefoneValido && obsValido && arquivoValido) {
+            btnSubmit.type = 'submit';
+        }
     }
 }
 function atualizarNameFile() {
@@ -56,22 +112,31 @@ function atualizarNameFile() {
         // Verificando o tipo do arquivo
         if (nameFile.substring(nameFile.indexOf('.'), nameFile.length) == '.pdf') {
             arquivoValido = true;
-            if (emailValido && arquivoValido) {
+            pFileInvalido.style.display = "none";
+            if (emailValido && telefoneValido && obsValido && arquivoValido) {
                 btnSubmit.type = 'submit';
             }
         } else {
             arquivoValido = false;
+            pFileInvalido.style.display = "block";
         }
     }
 }
 function analiseParaPost() {
     if (btnSubmit.type == 'button') {
-        if (!emailValido && !arquivoValido) {
-            alert('Corrija os seguintes pontos:\nInsira um email válido.\nInsira um currículo no formato PDF.');
-        } else if (!emailValido && arquivoValido) {
-            alert('Insira um email válido.');
-        } else if (emailValido && !arquivoValido) {
-            alert('Insira um currículo no formato PDF.')
+        var msg = 'Corrija os seguintes pontos:\n';
+        if (!emailValido) {
+            msg += 'Insira um endereço de email válido\n';
         }
+        if (!telefoneValido) {
+            msg += 'Insira um número de telefone válido\n';
+        }
+        if (!obsValido) {
+            msg += "Digite menos de 255 letras no campo 'Observações'\n";
+        }
+        if (!arquivoValido) {
+            msg += "Insira um arquivo com a extensão '.pdf' no campo 'Currículo'\n";
+        }
+        alert(msg);
     }
 }
