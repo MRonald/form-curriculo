@@ -18,7 +18,7 @@
                         <p>Identificamos um ou mais erros nos dados enviados. Por favor, retorne à página de cadastro e preencha o formulário novamente.</p>
                         <p>Se o erro persistir, tente novamente mais tarde.</p>
                         <div class='boxBtnVoltar'>
-                            <a href='#' class='btnvoltar'>Ir para a tela de cadastro</a>
+                            <a href='../' class='btnvoltar'>Ir para a tela de cadastro</a>
                         </div>
                     ";
                 } else {
@@ -27,7 +27,7 @@
                         <h1 class='title'>Opa! Tudo bem?</h1>
                         <p>Não identificamos o seu cadastro e o envio do seu currículo. Por favor, vá à página de cadastro e preencha o formulário.</p>
                         <div class='boxBtnVoltar'>
-                            <a href='#' class='btnvoltar'>Ir para a tela de cadastro</a>
+                            <a href='../' class='btnvoltar'>Ir para a tela de cadastro</a>
                         </div>
                     ";
                 }
@@ -48,10 +48,11 @@
                     pageError(1);
                 } else {
                     // Tratando o arquivo recebido
-                    $newNameFile = substr(md5(time()), 0, 19) . substr($curriculo['name'], -4);
+                    $newNameFile = substr(md5(time()), 0, 19) . strrchr($curriculo['name'], '.');
+                    echo $newNameFile;
                     move_uploaded_file($curriculo['tmp_name'], "../_curriculos/" . $newNameFile);
                     //Inserindo dados no banco de dados
-                    $data = array($nome, $email, $tel, $cargo, $esc, $obs, substr($newNameFile, 0, -5));
+                    $data = array($nome, $email, $tel, $cargo, $esc, $obs, $newNameFile);
                     DBInsert($data);
                     // Pegando o primeiro nome do usuário
                     $primeiroNome = explode(' ', $nome)[0];
@@ -59,7 +60,7 @@
                         <h1 class='title'>Muito obrigado, $primeiroNome</h1>
                         <p>Recebemos o seu currículo e entraremos em contato o mais rápido possível.</p>
                         <div class='boxBtnVoltar'>
-                            <a href='#' class='btnvoltar'>Retornar para a tela de cadastro</a>
+                            <a href='../' class='btnvoltar'>Retornar para a tela de cadastro</a>
                         </div>
                     ";
                 }
