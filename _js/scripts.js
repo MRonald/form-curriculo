@@ -104,15 +104,16 @@ function atualizarNameFile() {
     // Modificando o nome do arquivo na span
     if (inputCurriculo.files[0].name) {
         var nameFile = inputCurriculo.files[0].name;
-        if (nameFile.length < 14) { 
+        if (nameFile.length < 15) { 
             spanFileName.innerText = nameFile;
         } else {
             spanFileName.innerText = nameFile.substring(0, 14) + "...";
         }
-        // Verificando o tipo do arquivo
-        if ((nameFile.substring(nameFile.lastIndexOf('.'), nameFile.length) == '.pdf') ||
+        // Verificando tipo e tamanho do arquivo
+        if (((nameFile.substring(nameFile.lastIndexOf('.'), nameFile.length) == '.pdf') ||
             (nameFile.substring(nameFile.lastIndexOf('.'), nameFile.length) == '.doc') ||
-            (nameFile.substring(nameFile.lastIndexOf('.'), nameFile.length) == '.docx')) {
+            (nameFile.substring(nameFile.lastIndexOf('.'), nameFile.length) == '.docx')) &&
+            (inputCurriculo.files[0].size / 1048576 <= 1)) {
             arquivoValido = true;
             pFileInvalido.style.display = "none";
             if (emailValido && telefoneValido && obsValido && arquivoValido) {
@@ -137,7 +138,7 @@ function analiseParaPost() {
             msg += "Digite menos de 255 letras no campo 'Observações'\n";
         }
         if (!arquivoValido) {
-            msg += "O Currículo deve ser um arquivo PDF, DOC ou DOCX\n";
+            msg += "O Currículo deve ser um arquivo PDF, DOC ou DOCX com tamanho máximo de 1Mb\n";
         }
         alert(msg);
     }
