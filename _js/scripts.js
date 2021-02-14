@@ -15,7 +15,7 @@ campoEmail.addEventListener('keyup', verificarEmail);
 campoTel.addEventListener('keyup', verificarTelefone);
 campoObs.addEventListener('keyup', verificarObs);
 inputCurriculo.addEventListener('change', atualizarNameFile);
-btnSubmit.addEventListener('click', analiseParaPost)
+btnSubmit.addEventListener('click', analiseParaPost);
 
 // Functions
 function verificarEmail() {

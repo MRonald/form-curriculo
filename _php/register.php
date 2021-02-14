@@ -37,22 +37,23 @@
                 require 'connection.php';
                 require 'manipulation.php';
                 // Guardando dados em variáveis
-                $nome = ($_POST['nome']) ? $_POST['nome'] : null;
-                $email = ($_POST['email']) ? $_POST['email'] : null;
-                $tel = ($_POST['tel']) ? $_POST['tel'] : null;
-                $cargo = ($_POST['cargo']) ? $_POST['cargo'] : null;
-                $esc = ($_POST['esc']) ? $_POST['esc'] : null;
-                $obs = ($_POST['obs']) ? $_POST['obs'] : null;
-                $curriculo = ($_FILES['curriculo']) ? $_FILES['curriculo'] : null;
-                if ($nome == null || $email == null || $tel == null || $cargo == null || $esc == null || $curriculo == null) {
+                $nome = isset($_POST['nome']) ? $_POST['nome'] : null;
+                $email = isset($_POST['email']) ? $_POST['email'] : null;
+                $tel = isset($_POST['tel']) ? $_POST['tel'] : null;
+                $cargo = isset($_POST['cargo']) ? $_POST['cargo'] : null;
+                $esc = isset($_POST['esc']) ? $_POST['esc'] : null;
+                $obs = isset($_POST['obs']) ? $_POST['obs'] : null;
+                $curriculo = isset($_FILES['curriculo']) ? $_FILES['curriculo'] : null;
+                $ip = getenv("REMOTE_ADDR");
+                if ($nome == null || $email == null || $tel == null || $cargo == null ||
+                    $esc == null || $curriculo == null || $ip == null) {
                     pageError(1);
                 } else {
                     // Tratando o arquivo recebido
                     $newNameFile = substr(md5(time()), 0, 19) . strrchr($curriculo['name'], '.');
-                    echo $newNameFile;
                     move_uploaded_file($curriculo['tmp_name'], "../_curriculos/" . $newNameFile);
                     //Inserindo dados no banco de dados
-                    $data = array($nome, $email, $tel, $cargo, $esc, $obs, $newNameFile);
+                    $data = array($nome, $email, $tel, $cargo, $esc, $obs, $newNameFile, $ip);
                     DBInsert($data);
                     // Pegando o primeiro nome do usuário
                     $primeiroNome = explode(' ', $nome)[0];
