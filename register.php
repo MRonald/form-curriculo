@@ -65,11 +65,11 @@
                     $mail->isSMTP();
                     $mail->Host = 'smtp.gmail.com';
                     $mail->SMTPAuth = true;
-                    $mail->Username = 'formulariocurriculo@gmail.com';
-                    $mail->Password = 'formulariosenha2021';
+                    $mail->Username = 'EMAIL';
+                    $mail->Password = 'SENHA';
                     $mail->Port = 587;
-                    $mail->setFrom('formulariocurriculo@gmail.com');
-                    $mail->addAddress('formulariocurriculo@gmail.com');
+                    $mail->setFrom('EMAIL');
+                    $mail->addAddress('EMAIL');
                     $mail->CharSet = 'utf8';
                     $mail->isHTML(true);
                     $mail->Subject = "Cadastro de currículo [$primeiroNome]";
