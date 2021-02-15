@@ -78,7 +78,7 @@
 
                         <table>
                             <tr>
-                                <td colspan='2'>Dadod do Registro</td>
+                                <td colspan='2'>Dados do Registro</td>
                             </tr>
                             <tr>
                                 <td>Nome:</td>
